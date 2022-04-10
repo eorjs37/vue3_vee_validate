@@ -1,35 +1,40 @@
 <template>
   <div class="mx-1200">
+      <Field id="name" name="name" label="name" rules="required" ref="name"  v-slot="{ field ,errors }">
+        <div class="dp_block">
+          <label for="name">이름 : </label>
+          <input type="text" id="name" v-bind="field" v-model="input" :class="{'input_invaild' : errors[0]}">
+        </div>
+        
+        <span :class="{'invaild': errors[0] }">{{ errors[0] }}</span>
+      </Field>  
 
-    <Field id="name" name="name" label="name" rules="required"  v-slot="{ field ,errors }">
-      <div class="dp_block">
-        <label for="name">이름 : </label>
-        <input type="text" id="name" v-bind="field" v-model="input" :class="{'input_invaild' : errors[0]}">
-      </div>
-      
-      <span :class="{'invaild': errors[0] }">{{ errors[0] }}</span>
-    </Field>  
+      <Field id="age" name="age" label="age"  rules="required"  v-slot="{ field ,errors }">
+        <div class="dp_block">
+          <label for="age">나이 : </label>
+          <input type="number" min="0" id="age" v-bind="field" v-model="input2" :class="{'input_invaild' : errors[0]}">
+        </div>
+        <span :class="{'invaild': errors[0] }">{{ errors[0] }}</span>
+      </Field>  
+    
 
-     <Field id="age" name="age" label="age"  rules="required"  v-slot="{ field ,errors }">
-       <div class="dp_block">
-         <label for="age">나이 : </label>
-         <input type="number" min="0" id="age" v-bind="field" v-model="input2" :class="{'input_invaild' : errors[0]}">
-       </div>
-      <span :class="{'invaild': errors[0] }">{{ errors[0] }}</span>
-    </Field>  
+    <button @click="submit">submit</button>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 export default {
   name: 'App',
   setup(){
-    const input = ref('');
-    const input2 = ref('');
+    const input = ref('ddd');
+    const input2 = ref(12);
     const submit = () =>{
 
     }
+
+    onMounted(() =>{
+    })
 
     return{
       input,
