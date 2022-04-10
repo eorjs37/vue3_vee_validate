@@ -2,14 +2,19 @@
   <div class="mx-1200">
 
     <Field id="name" name="name" label="name" rules="required"  v-slot="{ field ,errors }">
-      <label for="name">이름 : </label>
-      <input type="text" id="name" v-bind="field" v-model="input" :class="{'input_invaild' : errors[0]}">
+      <div class="dp_block">
+        <label for="name">이름 : </label>
+        <input type="text" id="name" v-bind="field" v-model="input" :class="{'input_invaild' : errors[0]}">
+      </div>
+      
       <span :class="{'invaild': errors[0] }">{{ errors[0] }}</span>
     </Field>  
 
      <Field id="age" name="age" label="age"  rules="required"  v-slot="{ field ,errors }">
-      <label for="age">나이 : </label>
-      <input type="number" min="0" id="age" v-bind="field" v-model="input2" :class="{'input_invaild' : errors[0]}">
+       <div class="dp_block">
+         <label for="age">나이 : </label>
+         <input type="number" min="0" id="age" v-bind="field" v-model="input2" :class="{'input_invaild' : errors[0]}">
+       </div>
       <span :class="{'invaild': errors[0] }">{{ errors[0] }}</span>
     </Field>  
   </div>
@@ -40,6 +45,10 @@ export default {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
+}
+
+.dp_block{
+  display: block;
 }
 
 .input_invaild{
