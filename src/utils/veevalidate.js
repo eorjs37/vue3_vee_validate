@@ -9,9 +9,22 @@ Object.keys(AllRules).forEach(rule => {
     defineRule(rule, AllRules[rule]);
 });
 
+
 configure({
   generateMessage: localize({
-    en,
-    ko
-  }),
+    en: {
+      names: {
+        name:'Name',
+        age: 'Age',
+      },
+      messages: en.messages,
+    },
+    ko: {
+      names:{
+        name:'이름',
+        age: '나이',
+      },
+      messages: ko.messages,
+    },
+  })
 });
