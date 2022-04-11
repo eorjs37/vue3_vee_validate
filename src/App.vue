@@ -18,6 +18,13 @@
         <span :class="{'invaild': errors[0] }">{{ errors[0] }}</span>
       </Field>  
 
+       <Field ref="country" id="country" name="country" label="country"  rules="required"  v-slot="{ field ,errors }">
+        <div class="dp_block">
+          <label for="country">국적 : </label>
+          <input type="text" id="country" v-bind="field" v-model="input3" :class="{'input_invaild' : errors[0]}">
+        </div>
+        <span :class="{'invaild': errors[0] }">{{ errors[0] }}</span>
+      </Field>  
     </Form>
   
     <button @click="onSubmit">submit</button>
@@ -25,29 +32,35 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, inject } from 'vue';
 export default {
   name: 'App',
   setup(){
     const input = ref('');
     const input2 = ref(0);
+    const input3 = ref('country');
     const form1 = ref(null); //ref="form1"
-    const name = ref(null); //ref="name"
+    const isValidate = inject('isValidate');
+    const necessaryItems = ref(['name','age']);
 
     const onSubmit = async () =>{
-     const { valid } =   await form1.value.validateField('name');
-     console.log(valid);
+      const { results } =   await form1.value.validate();
+      if(isValidate(necessaryItems.value,results)){
+        alert('통과입니다.');
+      }else{
+        alert('필수값 확인을 해주세요.');
+      }
     }
 
+
     onMounted(() =>{
-      console.log(form1.value);
     })
 
     return{
       input,
       input2,
+      input3,
       form1,
-      name,
       onSubmit
     }
   },
