@@ -1,6 +1,7 @@
 <template>
   <div class="mx-1200">
-      <Field id="name" name="name" label="name" rules="required" ref="name"  v-slot="{ field ,errors }">
+    <Form @submit="onSubmit" ref="form1">
+       <Field ref="name" id="name" name="name" label="name" rules="required"   v-slot="{ field ,errors }">
         <div class="dp_block">
           <label for="name">이름 : </label>
           <input type="text" id="name" v-bind="field" v-model="input" :class="{'input_invaild' : errors[0]}">
@@ -9,16 +10,17 @@
         <span :class="{'invaild': errors[0] }">{{ errors[0] }}</span>
       </Field>  
 
-      <Field id="age" name="age" label="age"  rules="required"  v-slot="{ field ,errors }">
+      <Field ref="age" id="age" name="age" label="age"  rules="required"  v-slot="{ field ,errors }">
         <div class="dp_block">
           <label for="age">나이 : </label>
           <input type="number" min="0" id="age" v-bind="field" v-model="input2" :class="{'input_invaild' : errors[0]}">
         </div>
         <span :class="{'invaild': errors[0] }">{{ errors[0] }}</span>
       </Field>  
-    
 
-    <button @click="submit">submit</button>
+    </Form>
+  
+    <button @click="onSubmit">submit</button>
   </div>
 </template>
 
@@ -27,19 +29,26 @@ import { ref, onMounted } from 'vue';
 export default {
   name: 'App',
   setup(){
-    const input = ref('ddd');
-    const input2 = ref(12);
-    const submit = () =>{
+    const input = ref('');
+    const input2 = ref(0);
+    const form1 = ref(null); //ref="form1"
+    const name = ref(null); //ref="name"
 
+    const onSubmit = async () =>{
+     const { valid } =   await form1.value.validateField('name');
+     console.log(valid);
     }
 
     onMounted(() =>{
+      console.log(form1.value);
     })
 
     return{
       input,
       input2,
-      submit
+      form1,
+      name,
+      onSubmit
     }
   },
 }
