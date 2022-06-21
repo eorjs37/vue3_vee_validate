@@ -1,30 +1,44 @@
 <template>
   <div class="mx-1200">
     <Form @submit="onSubmit" ref="form1">
-       <Field ref="name" id="name" name="name" label="name" rules="required"   v-slot="{ field ,errors }">
+       <Field ref="name" id="name" v-model="info.input"  name="name" label="name" rules="required"   v-slot="{ field ,errors }">
         <div class="dp_block">
           <label for="name">이름 : </label>
-          <input type="text" id="name" v-bind="field" v-model="input" :class="{'input_invaild' : errors[0]}">
+          <input type="text" id="name" v-bind="field" :class="{'input_invaild' : errors[0]}">
         </div>
         
         <span :class="{'invaild': errors[0] }">{{ errors[0] }}</span>
       </Field>  
 
-      <Field ref="age" id="age" name="age" label="age"  rules="required"  v-slot="{ field ,errors }">
+      <Field ref="age" id="age" name="age" v-model="info.input2" label="age"  rules="required"  v-slot="{ field ,errors }">
         <div class="dp_block">
           <label for="age">나이 : </label>
-          <input type="number" min="0" id="age" v-bind="field" v-model="input2" :class="{'input_invaild' : errors[0]}">
+          <input type="number" min="0" id="age" v-bind="field" :class="{'input_invaild' : errors[0]}">
         </div>
         <span :class="{'invaild': errors[0] }">{{ errors[0] }}</span>
       </Field>  
 
-       <Field ref="country" id="country" name="country" label="country"  rules="required"  v-slot="{ field ,errors }">
+       <Field ref="country" id="country" name="country"  v-model="info.input3" label="country"  rules="required"  v-slot="{ field ,errors }">
         <div class="dp_block">
           <label for="country">국적 : </label>
-          <input type="text" id="country" v-bind="field" v-model="input3" :class="{'input_invaild' : errors[0]}">
+          <input type="text" id="country" v-bind="field"  :class="{'input_invaild' : errors[0]}">
         </div>
         <span :class="{'invaild': errors[0] }">{{ errors[0] }}</span>
       </Field>  
+
+      <div class="dp_block">
+        <Form  ref="form2" v-slot="{ values }">
+          <Field  name="cb1" type="checkbox" value="체크1"/>체크1
+
+          <Field  name="cb2" type="checkbox" value="체크2"/>체크2
+
+          <Field name="cb3" type="checkbox" value="체크3"/>체크3
+
+          <p>
+            {{ values }}
+          </p>
+        </Form>
+      </div>
     </Form>
   
     <button @click="onSubmit">submit</button>
@@ -32,24 +46,25 @@
 </template>
 
 <script>
-import { ref, onMounted, inject } from 'vue';
+import { ref, onMounted } from 'vue';
 export default {
   name: 'App',
   setup(){
-    const input = ref('');
-    const input2 = ref(0);
-    const input3 = ref('country');
     const form1 = ref(null); //ref="form1"
-    const isValidate = inject('isValidate');
-    const necessaryItems = ref(['name','age']);
+    const form2 = ref(null); //ref="form2"
+    const info = ref({
+      input:'',
+      input2:0,
+      input3:'',
+      checkBox:[]
+    })
 
     const onSubmit = async () =>{
+      console.log(form1.value);
       const { results } =   await form1.value.validate();
-      if(isValidate(necessaryItems.value,results)){
-        alert('통과입니다.');
-      }else{
-        alert('필수값 확인을 해주세요.');
-      }
+      // const { results } = await form2.value.validate();
+      
+      console.log(results);
     }
 
 
@@ -57,10 +72,9 @@ export default {
     })
 
     return{
-      input,
-      input2,
-      input3,
       form1,
+      form2,
+      info,
       onSubmit
     }
   },

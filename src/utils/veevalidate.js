@@ -12,6 +12,15 @@ Object.keys(AllRules).forEach(rule => {
 });
 
 
+//custome
+defineRule('checkBoxValidate',(value,_,{field})=>{
+  if(typeof value === 'object' && value.length > 0){
+    return `${field}은 필수입니다.`
+  }
+
+  return true;
+})
+
 configure({
   generateMessage: localize({
     en: {
